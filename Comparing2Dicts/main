@@ -1,0 +1,45 @@
+Sub main()
+    
+    Dim StartTime As Double
+    Dim MinutesElapsed As String
+    
+    'Remember time when macro starts
+    StartTime = Timer
+    
+    'Remove Screen Updating
+    Application.ScreenUpdating = False
+    
+    ********************************************************
+    Dict to Compare TO - CoreDict_4June
+    Dict to Compare FROM - CoreDict_8June
+    ********************************************************
+    
+    'Filling Core dict with key = TxID ReqtNo.
+    Dim CoreDict_4June As Dictionary
+    Dim CoreDict_8June As Dictionary
+    Set CoreDict_4June = Core_Dict("MC_Tasks_Export_June4", "A", "AA")
+    Set CoreDict_8June = Core_Dict("MC_Tasks_Export_June8", "A", "AA")
+    
+    Call Compare_Core_Sheet("MC_Tasks_Export_June4", "A", "AA", CoreDict_8June, "MC_Tasks_Export_June8", "Comparison2")
+    
+    Debug.Print (Sheets("MC_Tasks_Export_June4").Cells(1, 1).End(xlDown).Value)
+    Dim i As Integer
+    For i = 1 To Sheets("MC_Tasks_Export_June4").Cells(1, Columns.Count).Column
+    
+        If Sheets("Comparison2").Cells(1, i).End(xlDown).Value <> "" Or Sheets("Comparison2").Cells(1, i).End(xlDown).Interior.ColorIndex = 6 Then
+            Sheets("Comparison2").Columns(i + 1).EntireColumn.Insert Shift:=xlToRight
+            Sheets("MC_Tasks_Export_June4").Columns(i + 1).EntireColumn.Insert Shift:=xlToRight
+            Sheets("Comparison2").Columns(Cells(1, i).Column).Copy Destination:=Sheets("MC_Tasks_Export_June4").Columns(Cells(1, i + 1).Column)
+            Sheets("MC_Tasks_Export_June4").Cells(2, i + 1).Value = Sheets("MC_Tasks_Export_June4").Cells(2, i).Value & " " & " - June 8"
+        End If
+    
+    Next i
+    
+    'Determine how many seconds code took to run
+      MinutesElapsed = Format((Timer - StartTime) / 86400, "hh:mm:ss")
+    
+    'Notify user in seconds
+      MsgBox "This code ran successfully in " & MinutesElapsed & " minutes", vbInformation
+    
+End Sub
+
