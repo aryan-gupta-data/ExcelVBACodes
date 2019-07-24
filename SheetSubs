@@ -22,3 +22,14 @@ Sub DeleteSheet(SheetName As Variant)
     Application.DisplayAlerts = True
         
 End Sub
+
+Sub CreateSheet(SheetName As Variant)
+        
+    Dim ws As Worksheet, wk_name As Variant
+    
+    Set ws = Sheets.Add(after:=Worksheets(Worksheets.Count))
+    With ws
+        .Name = SheetName
+    End With
+        
+End Sub
