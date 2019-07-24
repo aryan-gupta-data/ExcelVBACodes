@@ -1,0 +1,24 @@
+Sub SheetExist(SheetName As Variant)
+
+    For Each Sheet In Worksheets
+        If Sheet.Name = SheetName Then
+            Call DeleteSheet(SheetName)
+        End If
+    Next Sheet
+    
+    Call CreateSheet(SheetName)
+    
+   
+End Sub
+
+Sub DeleteSheet(SheetName As Variant)
+    
+    Application.DisplayAlerts = False
+    
+    Sheets(SheetName).Activate
+    Set wks = ActiveSheet
+    Worksheets(SheetName).Delete
+    
+    Application.DisplayAlerts = True
+        
+End Sub
