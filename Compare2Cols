@@ -1,0 +1,42 @@
+Sub main()
+
+    Dim W_relation As New Dictionary, WO_relation As New Dictionary
+    Dim W_relationKey As Variant, WO_relationKey As Variant
+    
+    Dim comparison As Worksheet: Set comparison = Sheets("comparison")
+    
+    Dim lastrow As Long: lastrow = comparison.UsedRange.Rows(comparison.UsedRange.Rows.Count).row
+    
+    Dim row As Long
+    
+    For row = 2 To lastrow
+        WO_relationKey = comparison.Cells(row, "A").Value2
+        
+        If Not WO_relation.Exists(WO_relationKey) And Len(WO_relationKey) <> 0 Then
+            WO_relation.Add WO_relationKey, row
+        End If
+        
+    Next row
+    
+    For row = 2 To lastrow
+        W_relationKey = comparison.Cells(row, "B").Value2
+        
+        If Not W_relation.Exists(W_relationKey) And Len(W_relationKey) <> 0 Then
+            W_relation.Add W_relationKey, row
+        End If
+        
+    Next row
+    
+    For Each Key In W_relation.Keys
+        If Not WO_relation.Exists(Key) Then
+            Debug.Print "Does not exist in WO Relation:- " & Key
+        End If
+    Next Key
+    
+    For Each Key In WO_relation.Keys
+        If Not W_relation.Exists(Key) Then
+            Debug.Print "Does not exist in W Relation:- " & Key
+        End If
+    Next Key
+    
+End Sub
