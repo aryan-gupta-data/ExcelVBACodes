@@ -1,0 +1,2 @@
+'Remove Brakets between tasks of Enigne 1 and 2
+=IF(N3="Engine 2",SUBSTITUTE(SUBSTITUTE(G3,"(","/"),")",""),IF(AND(N3="Engine 1",N4="Engine 2",IFERROR(FIND(G3,G4),0)=1),H4,G3))
